@@ -5,7 +5,7 @@ if "expression" not in st.session_state:
 if "history" not in st.session_state:
     st.session_state.history = []
 
-st.header("Advance Calculator")
+st.header("Advance Calculator🧮")
 
 st.text_input("Display", st.session_state.expression, disabled=True)
 
@@ -35,7 +35,7 @@ for row in rows:
     for i, val in enumerate(row):
         with cols[i]:
             if val == "C":
-                st.button(v     al, on_click= clear)
+                st.button(val, on_click= clear)
             elif val == "=":
                 st.button(val, on_click=calculate)
             else:
