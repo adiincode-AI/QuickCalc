@@ -35,7 +35,7 @@ for row in rows:
     for i, val in enumerate(row):
         with cols[i]:
             if val == "C":
-                st.button(val, on_click= clear)
+                st.button(v     al, on_click= clear)
             elif val == "=":
                 st.button(val, on_click=calculate)
             else:
