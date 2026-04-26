@@ -1,33 +1,62 @@
 import streamlit as st
 
-st.header("Calculator")
-col1, col2 = st.columns(2)
-with col1:
-    num1 = st.number_input("Enter first number", value=0.00)
-with col2:
-    num2 = st.number_input("Enter second number", value=0.00)
+if "expression" not in st.session_state:
+    st.session_state.expression = ""
+if "history" not in st.session_state:
+    st.session_state.history = []
 
-col1, col2, col3, col4 = st.columns(4)
+st.header("Advance Calculator")
 
-result = None
+st.text_input("Display", st.session_state.expression, disabled=True)
 
-with col1:
-    if st.button("+"):
-        result = num1 + num2
-with col2:
-    if st.button("-"):
-        result = num1 - num2
-with col3:
-    if st.button("x"):
-        result = num1 * num2
-with col4:
-    if st.button("÷"):
-        if num2 != 0:
-            result = num1 / num2
-        else:
-            result = "Error"
-        
+def press(val):
+    st.session_state.expression += str(val)
+def clear():
+    st.session_state.expression = ""
+def calculate():
+    try:
+        result = str(eval(st.session_state.expression))
+        st.session_state.history.append(f"{st.session_state.expression} = {result}"
+                ) 
+        st.session_state.expression = result
+    except:
+        st.session_state.expression = "Error"
 
-if result is not None:
-    st.success(f"Result:{result}")
+rows =  [
+    ["7", "8", "9", "/"],
+    ["4", "5", "6", "*"],
+    ["1", "2", "3", "-"],
+    ["0", "C", "=", "+"]
+]
+
+for row in rows:
+    cols = st.columns(4)
+
+    for i, val in enumerate(row):
+        with cols[i]:
+            if val == "C":
+                st.button(val, on_click= clear)
+            elif val == "=":
+                st.button(val, on_click=calculate)
+            else:
+                st.button(val, on_click=press, args=(val, ))
+
+st.subheader("History")
+if st.button("Clear History"):
+        st.session_state.history = ""
+for item in st.session_state.history[::-1]:
+    st.write(item)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
